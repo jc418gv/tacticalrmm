@@ -197,6 +197,16 @@ services:
       - "${TRMM_HTTPS_PORT-443}:4443"
     volumes:
       - tactical_data:/opt/tactical
+    ## Access to SSL certs for $DOMAIN maintained by myresolver in traefik
+      - /opt/appdata/traefik/certs:/certs:ro
+    ## Traefik labels
+    labels:
+      traefik.enable: true
+      traefik.http.routers.tactical-nginx.rule: Host(`tactical.$DOMAIN`)
+      traefik.http.routers.tactical-nginx.entrypoints: https
+      traefik.http.routers.tactical-nginx.tls: true
+      traefik.http.routers.tactical-nginx.tls.certresolver: myresolver
+      traefik.http.services.tactical-nginx.loadbalancer.server.port: 4443
 
   # container for celery worker service
   tactical-celery:
