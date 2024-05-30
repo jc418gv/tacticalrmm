@@ -8,10 +8,10 @@
 
 While assessing Tactical RMM, I noticed that the project offers an impressive reverse proxy for a host and no other great ingress. \
 That project must, quite understandably, focus on that primary configuration for support. What suprised me was the lack of obvious \
-success by the community to run [Traefik](https://traefik.io/) with a [Docker installation](https://docs.tacticalrmm.com/install_docker/). 
+success by the community to run [Traefik](https://traefik.io/) with a [Docker installation of TRMM](https://docs.tacticalrmm.com/install_docker/). 
 
 I created this fork to track my changes to the compose files, which I assumed would be extensive. It turns out that \
-most of the tricks to make this work happen outside of the project. I will document notes on those here for my own \
+most of the configuration to make this work don't require modifying TRMM. I will still document notes on those here for my own \
 reference. Maybe others will have a similar traefik environment or the concepts will help their troubleshooting. 
 
 This guide will be most relevant if you:
