@@ -197,11 +197,11 @@ services:
       - "${TRMM_HTTPS_PORT-443}:4443"
     volumes:
       - tactical_data:/opt/tactical
-      ## Read-only access to SSL certs for $DOMAIN. 
-      ## This does NOT need to be wildcard. It must cover rmm.$DOMAIN, mesh.$DOMAIN, and api.$DOMAIN 
-      ## This is easily accomplished with 3 -d params in certbot
-      - /etc/letsencrypt/live/rmm.$DOMAIN/fullchain.pem:/opt/tactical/certs/fullchain.pem:ro
-      - /etc/letsencrypt/live/rmm.$DOMAIN/privkey.pem:/opt/tactical/certs/fullchain.key:ro
+      ## Read-only access to SSL certs for example.com. 
+      ## This does NOT need to be wildcard. It must cover rmm.example.com, mesh.$DOMAIN, and api.$DOMAIN 
+      ## One method is certbot with 3 -d parameters, beginning with rmm.example.com so it goes in /etc/letsencrypt/live/rmm.example.com/
+      - /etc/letsencrypt/live/$APP_HOST/fullchain.pem:/opt/tactical/certs/fullchain.pem:ro
+      - /etc/letsencrypt/live/$APP_HOST/privkey.pem:/opt/tactical/certs/fullchain.key:ro
 
   # container for celery worker service
   tactical-celery:
