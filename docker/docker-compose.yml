@@ -197,16 +197,11 @@ services:
       - "${TRMM_HTTPS_PORT-443}:4443"
     volumes:
       - tactical_data:/opt/tactical
-    ## Access to SSL certs for $DOMAIN maintained by myresolver in traefik
-      - /opt/appdata/traefik/certs:/certs:ro
-    ## Traefik labels
-    labels:
-      traefik.enable: true
-      traefik.http.routers.tactical-nginx.rule: Host(`tactical.$DOMAIN`)
-      traefik.http.routers.tactical-nginx.entrypoints: https
-      traefik.http.routers.tactical-nginx.tls: true
-      traefik.http.routers.tactical-nginx.tls.certresolver: myresolver
-      traefik.http.services.tactical-nginx.loadbalancer.server.port: 4443
+      ## Read-only access to SSL certs for $DOMAIN. 
+      ## This does NOT need to be wildcard. It must cover rmm.$DOMAIN, mesh.$DOMAIN, and api.$DOMAIN 
+      ## This is easily accomplished with 3 -d params in certbot
+      - /etc/letsencrypt/live/rmm.$DOMAIN/fullchain.pem:/opt/tactical/certs/fullchain.pem:ro
+      - /etc/letsencrypt/live/rmm.$DOMAIN/privkey.pem:/opt/tactical/certs/fullchain.key:ro
 
   # container for celery worker service
   tactical-celery:
